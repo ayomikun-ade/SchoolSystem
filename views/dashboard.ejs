@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+  </head>
+  <body class="font-[Poppins]">
+    <main class="grid grid-cols-4 gap-5 min-h-screen max-w-screen p-3">
+      <section
+        class="col-span-1 hidden md:flex flex-col gap-4 bg-[#333353] text-white rounded-lg p-4"
+      >
+        <div class="flex flex-col h-full">
+          <div
+            class="bg-[#51507d] rounded-lg py-2 px-4 mb-4 flex justify-between"
+          >
+            <h2 class="text-3xl font-semibold">Sn</h2>
+            <img src="./menu.svg" alt="menu" class="w-8 cursor-pointer" />
+          </div>
+          <div class="flex flex-col items-start text-lg w-full">
+            <button
+              class="px-3 py-2 bg-[#fff] text-neutral-700 font-semibold w-full text-left mb-2 rounded-lg"
+            >
+              Workbench
+            </button>
+            <button
+              class="px-3 py-2 bg-[#51507d] w-full text-left text-neutral-300 mb-2 rounded-lg"
+            >
+              Filters
+            </button>
+            <button
+              class="px-3 py-2 bg-[#51507d] w-full text-left text-neutral-300 mb-2 rounded-lg"
+            >
+              Management
+            </button>
+            <button
+              class="px-3 py-2 bg-[#51507d] w-full text-left text-neutral-300 mb-2 rounded-lg"
+            >
+              Settings
+            </button>
+            <button
+              class="px-3 py-2 bg-[#51507d] w-full text-left text-neutral-300 mb-2 rounded-lg"
+            >
+              Mind map
+            </button>
+          </div>
+        </div>
+        <div class="justify-self-end">
+          <button
+            class="px-4 py-3 bg-red-700 w-full text-left mb-2 rounded-lg hover:bg-red-600"
+          >
+            Logout
+          </button>
+        </div>
+      </section>
+
+      <section
+        class="flex flex-col gap-7 col-span-3 max-h-screen bg-[url('./education.jpg')] bg-no-repeat bg-contain bg-bottom"
+      >
+        <div
+          class="flex justify-between items-center bg-[#333353] p-4 rounded-lg"
+        >
+          <input
+            type="text"
+            name="search"
+            placeholder="Search"
+            class="rounded-lg px-3 py-2 w-1/2 outline-none"
+          />
+          <p class="text-sm text-white">Monday 14th, 2030</p>
+        </div>
+
+        <div class="mt-4">
+          <h1 class="text-3xl mb-2">
+            Hello, <span class="font-bold">Ayomikun</span>
+          </h1>
+          <p class="text-neutral-400 text-sm">
+            Never put off till tomorrow - what can be done today...
+          </p>
+        </div>
+
+        <div class="grid grid-cols-6 gap-3 mt-2">
+          <div
+            class="bg-[#333353] rounded-xl p-3 text-white flex flex-col items-center"
+          >
+            <h3 class="mb-3 text-lg font-medium">Tasks</h3>
+            <img src="./Placeholder_intl-removebg-preview (1).png" alt="" />
+          </div>
+          <div
+            class="bg-[#333353] rounded-xl p-3 text-white flex flex-col items-center"
+          >
+            <h3 class="mb-3 text-lg font-medium">Tasks</h3>
+            <img src="./Placeholder_intl-removebg-preview (1).png" alt="" />
+          </div>
+          <div
+            class="bg-[#333353] rounded-xl p-3 text-white flex flex-col items-center"
+          >
+            <h3 class="mb-3 text-lg font-medium">Tasks</h3>
+            <img src="./Placeholder_intl-removebg-preview (1).png" alt="" />
+          </div>
+          <div
+            class="bg-[#333353] rounded-xl p-3 text-white flex flex-col items-center"
+          >
+            <h3 class="mb-3 text-lg font-medium">Tasks</h3>
+            <img src="./Placeholder_intl-removebg-preview (1).png" alt="" />
+          </div>
+          <div class="bg-[#333353] rounded-xl p-3 text-white col-span-2">
+            <h3 class="mb-3 text-lg font-medium">Demographic</h3>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-6 gap-4 h-full">
+          <div class="col-span-2 h-full">
+            <h4 class="mb-3 font-semibold text-lg">Completed</h4>
+            <ul
+              class="list-disc list-inside font-medium text-lg bg-[#51507d] text-white p-4 rounded-xl"
+            >
+              <li class="text-green-500">Workbench</li>
+              <li>Workbench</li>
+              <li>Workbench</li>
+              <p class="text-right text-sm mt-3">See more..</p>
+            </ul>
+          </div>
+
+          <div class="col-span-4 h-full">
+            <h4 class="mb-3 text-lg font-semibold">Important</h4>
+            <div class="bg-[#333353] p-4 text-white rounded-xl">
+              <h4 class="font-medium mb-1.5">Something</h4>
+              <p class="font-normal text-sm">
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+              </p>
+              <button
+                class="bg-[#0890ff] py-1.5 px-7 mt-2 rounded-3xl hover:bg-[#0890dd]"
+              >
+                More...
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

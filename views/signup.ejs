@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup | Management</title>
+    <!-- <link rel="stylesheet" href="styles.css" /> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-[url('./school1.jpg')] bg-cover bg-no-repeat text-neutral-100 font-[Poppins] relative max-h-screen"
+  >
+    <main class="min-h-screen w-full flex flex-col justify-center items-center">
+      <h2 class="text-4xl font-bold mb-4">School-name intl.</h2>
+      <form
+        action="/signup"
+        method="post"
+        class="flex flex-col gap-2 w-[70%] md:w-[30%] bg-neutral-400 bg-opacity-10 py-8 px-10 rounded-xl backdrop-blur-sm"
+      >
+        <h3 class="text-2xl mb-3 font-semibold">Join Us ...</h3>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Enter your Username"
+          required
+          class="rounded-2xl py-1.5 px-4 mb-2 outline-none text-neutral-900 font-semibold placeholder:font-medium"
+        />
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Enter your password"
+          required
+          class="rounded-2xl py-1.5 px-4 mb-2 outline-none text-neutral-900 font-medium font-semibold placeholder:font-medium"
+        />
+        <div class="flex items-center justify-between">
+          <button
+            type="submit"
+            class="bg-[#0890ff] py-1.5 px-7 mt-2 rounded-3xl hover:bg-[#0890dd]"
+          >
+            Signup
+          </button>
+          <p class="text-sm underline hover:text-neutral-300">
+            <a href="/login">Already have an account?</a>
+          </p>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
