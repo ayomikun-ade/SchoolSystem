@@ -16,7 +16,7 @@ app.use(express.json());
 //session middleware
 app.use(
   session({
-    secret: "random-secret-key",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   })
