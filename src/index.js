@@ -35,7 +35,15 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-  res.render("dashboard");
+  const name = req.body.username;
+  //checks if user is logged in before giving access to dashboard
+  //   if (name) {
+  //     res.render("dashboard", { name: name }); //renders user name to dashboard
+  //   } else {
+  //     res.redirect("login");
+  //   }
+
+  res.render("dashboard", { name: name }); //renders user name to dashboard
 });
 
 //register user
@@ -54,7 +62,7 @@ app.post("/signup", async (req, res) => {
     const hashedPass = await bcrypt.hash(data.password, saltRounds);
     data.password = hashedPass;
     const userData = await collection.insertMany(data);
-    res.redirect("dashboard");
+    res.render("dashboard", { name: req.body.username });
   }
 });
 
@@ -73,7 +81,7 @@ app.post("/login", async (req, res) => {
     if (!isPasswordMatch) {
       res.send("Wrong Password");
     } else {
-      res.render("dashboard");
+      res.render("dashboard", { name: req.body.username });
     }
   } catch {
     res.send("Wrong Details");
