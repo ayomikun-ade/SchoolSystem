@@ -2,15 +2,25 @@
 const express = require("express");
 const path = require("path");
 const bcrypt = require("bcryptjs");
+const session = require("express-session");
 const collection = require("./config");
 
 require("dotenv").config();
 
 const app = express();
-const port = process.env || 4000;
+const port = process.env.PORT || 4000;
 
 //convert data to json
 app.use(express.json());
+
+//session middleware
+app.use(
+  session({
+    secret: "random-secret-key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 //indicating static files
 app.use(express.static("public"));
@@ -35,34 +45,32 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-  const name = req.body.username;
-  //checks if user is logged in before giving access to dashboard
-  //   if (name) {
-  //     res.render("dashboard", { name: name }); //renders user name to dashboard
-  //   } else {
-  //     res.redirect("login");
-  //   }
+  const name = req.session.username;
+  //   checks if user is logged in before giving access to dashboard
+  if (name) {
+    res.render("dashboard", { name }); //renders user name to dashboard
+  } else {
+    res.redirect("/login");
+  }
 
-  res.render("dashboard", { name: name }); //renders user name to dashboard
+  //   res.render("dashboard", { name: name }); //renders user name to dashboard
 });
 
 //register user
 app.post("/signup", async (req, res) => {
-  const data = {
-    name: req.body.username,
-    password: req.body.password,
-  };
+  let { username, password } = req.body;
   //check if user exists
-  const existingUser = await collection.findOne({ name: data.name });
+  const existingUser = await collection.findOne({ username });
   if (existingUser) {
     res.send("User already exists. Please choose a different username.");
   } else {
     //hashing
     const saltRounds = 10;
-    const hashedPass = await bcrypt.hash(data.password, saltRounds);
-    data.password = hashedPass;
-    const userData = await collection.insertMany(data);
-    res.render("dashboard", { name: req.body.username });
+    const hashedPass = await bcrypt.hash(password, saltRounds);
+    password = hashedPass;
+    await collection.create({ name: username, password });
+    req.session.username = username;
+    res.redirect("/login");
   }
 });
 
@@ -71,7 +79,7 @@ app.post("/login", async (req, res) => {
   try {
     const check = await collection.findOne({ name: req.body.username });
     if (!check) {
-      res.send("User cannot found. Please put in a registered username");
+      res.send("User cannot be found. Please put in a registered username");
     }
     // Compare the hashed password from the database with the plaintext password
     const isPasswordMatch = await bcrypt.compare(
@@ -79,12 +87,14 @@ app.post("/login", async (req, res) => {
       check.password
     );
     if (!isPasswordMatch) {
-      res.send("Wrong Password");
+      res.send("Wrong Password. Try again");
     } else {
-      res.render("dashboard", { name: req.body.username });
+      req.session.username = req.body.username;
+      res.redirect("/dashboard");
     }
-  } catch {
-    res.send("Wrong Details");
+  } catch (err) {
+    // res.send("Wrong Details");
+    console.log(err.message);
   }
 });
 
