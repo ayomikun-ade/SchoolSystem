@@ -8,6 +8,19 @@
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
   </head>
   <body class="font-[Poppins]">
+    <% if(messages.error) { %>
+    <div
+      class="absolute top-2 left-[40%] bg-red-200 text-red-800 p-3 rounded-md"
+    >
+      <%= messages.error%>
+    </div>
+    <% } %> <% if(messages.success) { %>
+    <div
+      class="absolute top-2 left-[40%] bg-green-200 text-green-800 p-3 rounded-md"
+    >
+      <%= messages.success%>
+    </div>
+    <% } %>
     <main
       class="flex md:grid grid-cols-4 gap-5 min-h-screen max-w-screen p-2 md:p-3"
     >

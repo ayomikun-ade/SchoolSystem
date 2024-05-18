@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const bcrypt = require("bcryptjs");
 const session = require("express-session");
+const flash = require("connect-flash");
 const collection = require("./config");
 
 require("dotenv").config();
@@ -25,8 +26,11 @@ app.use(
 //indicating static files
 app.use(express.static("public"));
 
-////url encoding
+//url encoding
 app.use(express.urlencoded({ extended: true }));
+
+//flash message middleware
+app.use(flash());
 
 //EJS
 app.set("view engine", "ejs");
@@ -37,18 +41,18 @@ app.get("/", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.render("login");
+  res.render("login", { messages: req.flash() });
 });
 
 app.get("/signup", (req, res) => {
-  res.render("signup");
+  res.render("signup", { messages: req.flash() });
 });
 
 app.get("/dashboard", (req, res) => {
   const name = req.session.username;
   //   checks if user is logged in before giving access to dashboard
   if (name) {
-    res.render("dashboard", { name }); //renders user name to dashboard
+    res.render("dashboard", { name, messages: req.flash() }); //renders user name to dashboard
   } else {
     res.redirect("/login");
   }
@@ -60,9 +64,15 @@ app.get("/dashboard", (req, res) => {
 app.post("/signup", async (req, res) => {
   let { username, password } = req.body;
   //check if user exists
-  const existingUser = await collection.findOne({ username });
+  const existingUser = await collection.findOne({ name: username });
   if (existingUser) {
-    res.send("User already exists. Please choose a different username.");
+    req.flash(
+      "error",
+      "User already exits. Please choose a different username."
+    );
+    res.redirect("/signup");
+
+    // res.send("User already exists. Please choose a different username.");
   } else {
     //hashing
     const saltRounds = 10;
@@ -70,6 +80,7 @@ app.post("/signup", async (req, res) => {
     password = hashedPass;
     await collection.create({ name: username, password });
     req.session.username = username;
+    req.flash("success", "Sign up successful. Please login.");
     res.redirect("/login");
   }
 });
@@ -79,7 +90,13 @@ app.post("/login", async (req, res) => {
   try {
     const check = await collection.findOne({ name: req.body.username });
     if (!check) {
-      res.send("User cannot be found. Please put in a registered username");
+      req.flash(
+        "error",
+        "User cannot be found. Put in a registered username or create an account."
+      );
+      res.redirect("/login");
+
+      // res.send("User cannot be found. Please put in a registered username");
     }
     // Compare the hashed password from the database with the plaintext password
     const isPasswordMatch = await bcrypt.compare(
@@ -87,9 +104,13 @@ app.post("/login", async (req, res) => {
       check.password
     );
     if (!isPasswordMatch) {
-      res.send("Wrong Password. Try again");
+      req.flash("error", "Wrong password. Please try again.");
+      res.redirect("/login");
+
+      // res.send("Wrong Password. Try again");
     } else {
       req.session.username = req.body.username;
+      req.flash("success", "Login Successful.");
       res.redirect("/dashboard");
     }
   } catch (err) {
