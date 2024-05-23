@@ -95,19 +95,17 @@ app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
     const check = await collection.findOne({ username });
+
     if (!check) {
-      req.flash(
-        "error",
-        "User cannot be found. Put in a registered username or create an account."
-      );
-      res.redirect("/login");
+      req.flash("error", "Incorrect Details. Please try again.");
+      return res.redirect("/login");
     }
 
     // Compare the hashed password from the database with the plaintext password
     const isPasswordMatch = await bcrypt.compare(password, check.password);
     if (!isPasswordMatch) {
-      req.flash("error", "Wrong password. Please try again.");
-      res.redirect("/login");
+      req.flash("error", "Incorrect Details. Please try again.");
+      return res.redirect("/login");
 
       // res.send("Wrong Password. Try again");
     } else {
