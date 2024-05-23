@@ -10,13 +10,13 @@
   <body class="font-[Poppins]">
     <% if(messages.error) { %>
     <div
-      class="absolute top-2 left-[40%] bg-red-200 text-red-800 p-3 rounded-md"
+      class="absolute w-fit top-2 left-0 right-0 mx-auto bg-red-200 text-red-800 p-3 rounded-md"
     >
       <%= messages.error%>
     </div>
     <% } %> <% if(messages.success) { %>
     <div
-      class="absolute top-2 left-[40%] bg-green-200 text-green-800 p-3 rounded-md"
+      class="absolute w-fit top-2 left-0 right-0 mx-auto bg-green-200 text-green-800 p-3 rounded-md"
     >
       <%= messages.success%>
     </div>
@@ -88,7 +88,7 @@
 
         <div class="mt-4">
           <h1 class="text-3xl mb-2">
-            Hello,<span class="font-bold"> <%= name %> </span>
+            Hello,<span class="font-bold"> <%= username %> </span>
           </h1>
           <p class="text-neutral-400 text-sm">
             Never put off till tomorrow - what can be done today...

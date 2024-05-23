@@ -49,10 +49,10 @@ app.get("/signup", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-  const name = req.session.username;
+  const username = req.session.username;
   //   checks if user is logged in before giving access to dashboard
-  if (name) {
-    res.render("dashboard", { name, messages: req.flash() }); //renders user name to dashboard
+  if (username) {
+    res.render("dashboard", { username, messages: req.flash() }); //renders user name to dashboard
   } else {
     res.redirect("/login");
   }
@@ -62,23 +62,28 @@ app.get("/dashboard", (req, res) => {
 
 //register user
 app.post("/signup", async (req, res) => {
-  let { username, password } = req.body;
+  let { username, email, password } = req.body;
   //check if user exists
-  const existingUser = await collection.findOne({ name: username });
+  const existingUser = await collection.findOne({ username });
+  const existingEmail = await collection.findOne({ email });
   if (existingUser) {
     req.flash(
       "error",
       "User already exits. Please choose a different username."
     );
     res.redirect("/signup");
-
-    // res.send("User already exists. Please choose a different username.");
+  } else if (existingEmail) {
+    req.flash(
+      "error",
+      "Email already in use. Please choose a different email."
+    );
+    res.redirect("/signup");
   } else {
     //hashing
     const saltRounds = 10;
     const hashedPass = await bcrypt.hash(password, saltRounds);
     password = hashedPass;
-    await collection.create({ name: username, password });
+    await collection.create({ username, email, password });
     req.session.username = username;
     req.flash("success", "Sign up successful. Please login.");
     res.redirect("/login");
@@ -88,28 +93,25 @@ app.post("/signup", async (req, res) => {
 // Login user
 app.post("/login", async (req, res) => {
   try {
-    const check = await collection.findOne({ name: req.body.username });
+    const { username, password } = req.body;
+    const check = await collection.findOne({ username });
     if (!check) {
       req.flash(
         "error",
         "User cannot be found. Put in a registered username or create an account."
       );
       res.redirect("/login");
-
-      // res.send("User cannot be found. Please put in a registered username");
     }
+
     // Compare the hashed password from the database with the plaintext password
-    const isPasswordMatch = await bcrypt.compare(
-      req.body.password,
-      check.password
-    );
+    const isPasswordMatch = await bcrypt.compare(password, check.password);
     if (!isPasswordMatch) {
       req.flash("error", "Wrong password. Please try again.");
       res.redirect("/login");
 
       // res.send("Wrong Password. Try again");
     } else {
-      req.session.username = req.body.username;
+      req.session.username = username;
       req.flash("success", "Login Successful.");
       res.redirect("/dashboard");
     }
