@@ -31,7 +31,9 @@
         method="post"
         class="flex flex-col gap-2 w-[90%] md:w-[30%] bg-neutral-400 bg-opacity-10 py-8 px-10 rounded-xl backdrop-blur-sm"
       >
-        <h3 class="text-2xl mb-3 font-semibold">Welcome back ...</h3>
+        <h3 class="text-2xl text-center md:text-left mb-3 font-semibold">
+          Welcome back ...
+        </h3>
         <input
           type="text"
           name="username"
@@ -49,7 +51,9 @@
           required
           class="rounded-2xl py-2 px-4 mb-4 outline-none text-neutral-900 font-medium font-semibold placeholder:font-medium"
         />
-        <div class="flex justify-between items-center">
+        <div
+          class="flex flex-col md:flex-row justify-between gap-2 items-center"
+        >
           <button
             type="submit"
             class="bg-[#0890ff] py-1.5 text-lg px-7 mt-2 rounded-3xl hover:bg-[#0890dd]"
